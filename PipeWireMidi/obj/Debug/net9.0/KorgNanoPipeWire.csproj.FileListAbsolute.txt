@@ -1,0 +1,11 @@
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.csproj.AssemblyReference.cache
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.GeneratedMSBuildEditorConfig.editorconfig
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.AssemblyInfoInputs.cache
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.AssemblyInfo.cs
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.csproj.CoreCompileInputs.cache
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/bin/Debug/net9.0/KorgNanoPipeWire
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/bin/Debug/net9.0/KorgNanoPipeWire.dll
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/bin/Debug/net9.0/KorgNanoPipeWire.pdb
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.dll
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/refint/KorgNanoPipeWire.dll
+/var/home/nicky/git/KorgNanoPipeWire/KorgNanoPipeWire/obj/Debug/net9.0/KorgNanoPipeWire.pdb

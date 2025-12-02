@@ -1,0 +1,113 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "PipeWireMidi/1.0.0": {
+        "dependencies": {
+          "NLog": "6.0.6",
+          "XVolume": "0.1.1",
+          "managed-midi": "1.10.1"
+        },
+        "runtime": {
+          "PipeWireMidi.dll": {}
+        }
+      },
+      "managed-midi/1.10.1": {
+        "runtime": {
+          "lib/netcoreapp2.1/Commons.Music.Midi.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netcoreapp2.1/alsa-sharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.5": {
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.525.21509"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/9.0.5": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.5"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.525.21509"
+          }
+        }
+      },
+      "NLog/6.0.6": {
+        "runtime": {
+          "lib/netstandard2.1/NLog.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.6.4706"
+          }
+        }
+      },
+      "XVolume/0.1.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.5"
+        },
+        "runtime": {
+          "lib/netstandard2.0/XVolume.dll": {
+            "assemblyVersion": "0.1.1.0",
+            "fileVersion": "0.1.1.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PipeWireMidi/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "managed-midi/1.10.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5k3IOpByUZku1kDDFLhD25NwogNeXipH7bPE2b+WIRwpJdntRuIv4NchZoI5AMZxTzzSZW6If/l9+zhLxzORgA==",
+      "path": "managed-midi/1.10.1",
+      "hashPath": "managed-midi.1.10.1.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.5",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.9.0.5.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/9.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pP1PADCrIxMYJXxFmTVbAgEU7GVpjK5i0/tyfU9DiE0oXQy3JWQaOVgCkrCiePLgS8b5sghM3Fau3EeHiVWbCg==",
+      "path": "microsoft.extensions.logging.abstractions/9.0.5",
+      "hashPath": "microsoft.extensions.logging.abstractions.9.0.5.nupkg.sha512"
+    },
+    "NLog/6.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eUd/LDIwPtufj5OxtzFYiwuoKpzaS87iqO9P9D05avLCk4jIoOlqMwRH0o/43LmzM+CmgVAdDrCOq/rOK0sDKw==",
+      "path": "nlog/6.0.6",
+      "hashPath": "nlog.6.0.6.nupkg.sha512"
+    },
+    "XVolume/0.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Y6dUw6NW2HzD81TSahClwDJUPWMVBIT+Y4n/4OMHCNovsR8CsxsRbqf+fZulFVgwqxrB/BcQdx/41eZS4KZqCw==",
+      "path": "xvolume/0.1.1",
+      "hashPath": "xvolume.0.1.1.nupkg.sha512"
+    }
+  }
+}
