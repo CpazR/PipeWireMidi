@@ -48,8 +48,10 @@ class PipeWireMidiManager {
             
             // TODO: Open source midi device mappings to distinguish between "buttons" vs analog "sliders" or "knobs"
             byte input = midiData[0];
-            byte inputValue = midiData[1];
-            Logger.Debug($"Unkown input: Input: {input}, Value: {inputValue}");
+            float value = midiData[1];
+            Logger.Debug($"Unkown input: Input: {input}, Value: {value}");
+            float scaledValue = (value / MaxAnalogValue) * 100;
+            volume.SetVolumeSmooth((int) scaledValue, 100);
         };
 
         Logger.Info("Listening for MIDI input... Press any key to exit.");
