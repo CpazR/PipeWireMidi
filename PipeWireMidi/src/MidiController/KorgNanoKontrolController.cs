@@ -1,9 +1,8 @@
 using Commons.Music.Midi;
 using PipeWireMidi.MidiController;
-using NLog;
 namespace PipeWireMidi;
 
-public class KorgNanoKontrolController : MidiController {
+public class KorgNanoKontrolController : AbstractMidiController {
 
     public KorgNanoKontrolController(IMidiPortDetails portDetails) : base(portDetails){}
 

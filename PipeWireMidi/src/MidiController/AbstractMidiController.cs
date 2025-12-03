@@ -5,7 +5,7 @@ using XVolume.Abstractions;
 using XVolume.Factory;
 namespace PipeWireMidi.MidiController;
 
-public abstract class MidiController {
+public abstract class AbstractMidiController {
     
     protected static readonly Logger Logger = BuildLogger();
     
@@ -26,7 +26,7 @@ public abstract class MidiController {
 
     private IMidiInput input;
     
-    protected MidiController(IMidiPortDetails portDetails) {
+    protected AbstractMidiController(IMidiPortDetails portDetails) {
         var access = MidiAccessManager.Default;
         input = access.OpenInputAsync(portDetails.Id).Result;
         
