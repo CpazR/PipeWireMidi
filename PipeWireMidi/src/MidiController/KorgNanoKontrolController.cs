@@ -9,13 +9,13 @@ public class KorgNanoKontrolController : AbstractMidiController {
         
         // TODO: Abstract all of this out to some UI system
         var mainElement = elements.First(element => element.id=="54");
-        var browserElement = elements.First(element => element.id=="90");
+        // var browserElement = elements.First(element => element.id=="90");
         
         InputConfigurations.Add(0, new InputConfiguration(0, InputType.ANALOG, InputActionType.VOLUME, mainElement));
         InputConfigurations.Add(48, new InputConfiguration(48, InputType.BUTTON, InputActionType.MUTE, mainElement));
         
-        InputConfigurations.Add(7, new InputConfiguration(7, InputType.ANALOG, InputActionType.VOLUME, browserElement));
-        InputConfigurations.Add(55, new InputConfiguration(55, InputType.BUTTON, InputActionType.MUTE, browserElement));
+        // InputConfigurations.Add(7, new InputConfiguration(7, InputType.ANALOG, InputActionType.VOLUME, browserElement));
+        // InputConfigurations.Add(55, new InputConfiguration(55, InputType.BUTTON, InputActionType.MUTE, browserElement));
     }
 
     protected override void EventHandler(object? sender, MidiReceivedEventArgs e) {

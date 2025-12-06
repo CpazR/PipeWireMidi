@@ -1,4 +1,6 @@
-﻿using Commons.Music.Midi;
+﻿using Avalonia.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NLog;
 using NLog.Targets;
 namespace PipeWireMidi;
@@ -18,22 +20,12 @@ class PipeWireMidiManager {
 
    static void Main(string[] args) {
 
-        // Instantiate the MIDI input device
-        // TODO: Pull this out into a UI
-        var midiDeviceNumber = "28_0"; // I think this is the client number from "aconnect -l"?
+        Logger.Info("Setting up midi service daemon:");
 
-        var access = MidiAccessManager.Default;
-       
-        Logger.Debug(access.Inputs);
-        Logger.Debug(access.Outputs);
-        
-        var elements = WirePlumberWrapper.GetMediaElements();
-        var midiPortDetail = access.Inputs.First(details => details.Id == midiDeviceNumber);
-        var controller = new KorgNanoKontrolController(midiPortDetail, elements);
+        var applicationBuilder = Host.CreateApplicationBuilder();
+        applicationBuilder.Services.AddHostedService<MidiWorker>();
 
-        Logger.Info("Listening for MIDI input... Press any key to exit.");
-
-        Console.ReadKey();
-        // controller.Close();
-    }
+        var host = applicationBuilder.Build();
+        host.Run();
+   }
 }

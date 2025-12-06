@@ -58,15 +58,10 @@ public class WirePlumberWrapper : IAudioWrapper {
                 continue;
             }
             else if (line.StartsWith(" └─ Streams:")) {
-                readingStreams = true;
                 currentSection = Section.Streams;
                 continue;
             }
             else if (line.StartsWith(" ├─") || line.StartsWith(" └─")) continue; // Skip section headers
-            // else if (currentSection.Equals(Section.Streams) && (line.StartsWith("") || line.StartsWith(" "))) {
-            //     readingStreams = false;
-            //     continue;
-            // };
 
             // Parse based on current section
             switch (currentSection) {
