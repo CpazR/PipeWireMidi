@@ -1,0 +1,24 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:PipeWireMidi.UI"
+             x:Class="PipeWireMidi.UI.UiApplication"
+             x:CompileBindings="true"
+             x:DataType="local:UiApplication"
+             RequestedThemeVariant="Default">
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="Resources/slider-vert.ico" ToolTipText="TrayIcon Sample"
+                      Command="{Binding TrayIconClickedCommand}">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="_Open" Command="{Binding ShowMidiManagerCommand}" />
+                        <NativeMenuItem Header="_About" Command="{Binding ShowAboutWindowCommand}" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="E_xit" Command="{Binding ExitApplicationCommand}" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+</Application>

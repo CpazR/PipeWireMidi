@@ -10,6 +10,8 @@
 
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="CSCore" Version="1.2.1.2" />
       <PackageReference Include="FrWireplumber" Version="0.4.4" />
       <PackageReference Include="managed-midi" Version="1.10.1" />
@@ -18,6 +20,22 @@
       <PackageReference Include="NLog" Version="6.0.6" />
       <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
       <PackageReference Include="XVolume" Version="0.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaResource Include="src\UI\Resources\slider-hori.ico" />
+      <AvaloniaResource Include="src\UI\Resources\slider-hori.svg" />
+      <AvaloniaResource Include="src\UI\Resources\slider-vert.ico" />
+      <AvaloniaResource Include="src\UI\Resources\slider-vert.svg" />
+      <None Remove="src\UI\slider-vert.ico" />
+      <None Remove="src\UI\slider-vert.svg" />
+      <None Remove="src\UI\slider-hori.svg" />
+      <None Remove="src\UI\slider-hori.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src\UI\About\" />
+      <Folder Include="src\UI\MidiManager\" />
     </ItemGroup>
 
 </Project>
