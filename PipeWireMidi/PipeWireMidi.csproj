@@ -6,15 +6,19 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>PipeWireMidi</RootNamespace>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Avalonia" Version="11.3.9" />
       <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+      <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.9" />
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="CSCore" Version="1.2.1.2" />
       <PackageReference Include="FrWireplumber" Version="0.4.4" />
       <PackageReference Include="managed-midi" Version="1.10.1" />
+      <PackageReference Include="Material.Avalonia" Version="3.13.3" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
       <PackageReference Include="NLog" Version="6.0.6" />
@@ -35,7 +39,6 @@
 
     <ItemGroup>
       <Folder Include="src\UI\About\" />
-      <Folder Include="src\UI\MidiManager\" />
     </ItemGroup>
 
 </Project>

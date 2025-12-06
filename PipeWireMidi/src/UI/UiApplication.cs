@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Input;
 using PipeWireMidi.MidiController;
+using PipeWireMidi.UI.MidiManager;
 namespace PipeWireMidi.UI;
 
 /**
@@ -12,6 +13,8 @@ namespace PipeWireMidi.UI;
  * UI will be responsible for user configuration and updating active <see cref="AbstractMidiController"/>s
  */
 public partial class UiApplication : Application {
+
+    private MidiManagerWindow? mainWindow;
 
     public override void Initialize() {
         AvaloniaXamlLoader.Load(this);
@@ -31,17 +34,25 @@ public partial class UiApplication : Application {
 
     [RelayCommand]
     public void TrayIconClicked() {
-        // TODO: Need to implement
+        BuildMidiManagerWindow();
+        mainWindow?.Show();
     }
 
     [RelayCommand]
     public void ShowMidiManager() {
-        // TODO: Need to implement
+        BuildMidiManagerWindow();
+        mainWindow?.Show();
     }
 
     [RelayCommand]
     public void ShowAboutWindow() {
         // TODO: Need to implement
+    }
+
+    private void BuildMidiManagerWindow() {
+        mainWindow ??= new MidiManagerWindow();
+        // Clear main window reference once closed
+        mainWindow?.Closed += (_, _) => mainWindow = null;
     }
 
     [RelayCommand]
