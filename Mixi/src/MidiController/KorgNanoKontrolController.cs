@@ -54,7 +54,12 @@ public class KorgNanoKontrolController : AbstractMidiController {
         }
     }
 
-    public void BindElement(int input, MediaElement element) {
+    public override void BindElement(int input, MediaElement element) {
+        // If ID is blank, remove any configurations
+        if (string.IsNullOrEmpty(element.Id)) {
+            InputConfigurations.Remove(input);
+            return;
+        }
         var configuration = new InputConfiguration(input, Definitions[input], element);
         InputConfigurations[input] = configuration;
         // TODO: Handle saving to external file here.

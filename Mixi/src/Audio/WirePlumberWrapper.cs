@@ -1,22 +1,15 @@
+using DynamicData.Kernel;
 using System.Diagnostics;
 namespace Mixi.Audio;
-
-// Enums to track current sections
-enum Section {
-    None,
-    Devices,
-    Sinks,
-    Sources,
-    Filters,
-    Streams
-}
 
 /**
  * A wrapper for WirePlumber commands.
  *
- * Inspired by XVolume's
+ * Inspired by XVolume's many generic interfaces for linux.
  */
 public class WirePlumberWrapper : IAudioWrapper {
+
+    private static readonly string VolumeToken = "[vol:";
 
     private const string CommandStatus = "wpctl status";
 
@@ -35,86 +28,100 @@ public class WirePlumberWrapper : IAudioWrapper {
             Environment.NewLine
         ], StringSplitOptions.RemoveEmptyEntries);
 
-        var currentSection = Section.None;
-        var readingStreams = false;
+        var currentSection = MediaType.None;
 
         foreach (var line in lines) {
             // Set the current section based on the line content
             // TODO: Likely not scalable. Don't know how other distro's handle this.
             if (line.StartsWith(" ├─ Devices:")) {
-                currentSection = Section.Devices;
+                currentSection = MediaType.Devices;
                 continue;
             }
             else if (line.StartsWith(" ├─ Sinks:")) {
-                currentSection = Section.Sinks;
+                currentSection = MediaType.Sinks;
                 continue;
             }
             else if (line.StartsWith(" ├─ Sources:")) {
-                currentSection = Section.Sources;
+                currentSection = MediaType.Sources;
                 continue;
             }
             else if (line.StartsWith(" ├─ Filters:")) {
-                currentSection = Section.Filters;
+                currentSection = MediaType.Filters;
                 continue;
             }
             else if (line.StartsWith(" └─ Streams:")) {
-                currentSection = Section.Streams;
+                currentSection = MediaType.Streams;
                 continue;
+            }
+            else if (line.StartsWith("Video") || line.StartsWith("Settings")) {
+                currentSection = MediaType.NA;
             }
             else if (line.StartsWith(" ├─") || line.StartsWith(" └─")) continue; // Skip section headers
 
             // Parse based on current section
             switch (currentSection) {
-                case Section.Devices:
-                    ParseDevice(elements, line);
+                case MediaType.Devices:
+                case MediaType.NA:
+                    // TODO: Determine if access to either of these are even useful in this context.
                     break;
-                case Section.Sinks:
-                case Section.Sources:
-                case Section.Filters:
-                    ParseAudio(elements, line);
+                case MediaType.Sinks:
+                case MediaType.Sources:
+                case MediaType.Filters:
+                    ParseAudio(elements, line, currentSection);
                     break;
-                case Section.Streams:
-                    ParseStreams(elements, line);
+                case MediaType.Streams:
+                    ParseStreams(elements, line, currentSection);
                     break;
             }
         }
 
         return elements;
     }
-    private static void ParseStreams(List<MediaElement> elements, string line) {
+    private static void ParseStreams(List<MediaElement> elements, string line, MediaType type) {
         var parts = line.Split([' '], StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length >= 2) { // Only ID and name
+            // Don't want to include the individual channels of streams.
+            if (parts[1].StartsWith("output_F")) {
+                return;
+            }
             elements.Add(new MediaElement(parts[0].Replace(".", ""), // ID
                 string.Join(" ", parts.Skip(1)), // Name
                 false, // Default muted state
-                1f)); // Default volume
+                1f,
+                type)); // Default volume
         }
     }
 
-    private static void ParseDevice(List<MediaElement> elements, string line) {
+    private static void ParseDevice(List<MediaElement> elements, string line, MediaType type) {
         var parts = line.Split([' '], StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length >= 3) {
             elements.Add(new MediaElement(parts[1].Replace(".", ""), // ID
                 string.Join(" ", parts.Skip(2)), // Name
                 false, // Default muted state
-                1f)); // Default volume
+                1f,
+                type)); // Default volume
         }
     }
-    
 
-    private static void ParseAudio(List<MediaElement> elements, string line) {
-        var parts = line.Split([' '], StringSplitOptions.RemoveEmptyEntries);
+
+    private static void ParseAudio(List<MediaElement> elements, string line, MediaType type) {
+        var parts = line.Split([' '], StringSplitOptions.RemoveEmptyEntries).AsList();
         // Check for volume information
-        if (parts.Length < 5)
+        if (parts.Count < 5)
             return;
-        // TODO: Is noting active devices useful? Don't think so.
         var isCurrentlyActive = parts[1] == "*";
-        var id = (isCurrentlyActive ? parts[2] : parts[1]).Replace(".", "");
-        var name = string.Join(" ", parts.Skip(2).Take(parts.Length - 3)); // Name is all parts except the last two
+        // Remove volume tokens. Can change between sessions.
         var volumeString = parts.Last().Replace("[vol:", "").Replace("]", "").Trim(); // Extract volume
         var volume = float.TryParse(volumeString, out var parsedVolume) ? parsedVolume : 1f; // Fallback to default
+        var volumeIndex = parts.IndexOf(VolumeToken);
+        // Remove twice. Should always be two whitespace separated volume tokens. Ex: [vol: 0.31]
+        parts.RemoveAt(volumeIndex);
+        parts.RemoveAt(volumeIndex);
+        var skipId = isCurrentlyActive ? 3 : 2;
+        var id = (isCurrentlyActive ? parts[2] : parts[1]).Replace(".", "");
+        var name = string.Join(" ", parts.Skip(skipId)); // Name is all parts except the last two
 
-        elements.Add(new MediaElement(id, name, false, volume));
+        elements.Add(new MediaElement(id, name, false, volume, type));
     }
 
 

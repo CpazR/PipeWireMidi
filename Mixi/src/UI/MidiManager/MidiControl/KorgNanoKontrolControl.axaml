@@ -1,10 +1,39 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:midiControl="clr-namespace:Mixi.UI.MidiManager.MidiControl"
+             xmlns:audio="clr-namespace:Mixi.Audio"
              x:Class="Mixi.UI.MidiManager.MidiControl.KorgNanoKontrolControl"
-             Width="1280"
-             Height="650">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Name="DropdownGrid" ColumnDefinitions="*" VerticalAlignment="Top" MinWidth="1200" MinHeight="500"
-              Margin="10" />
+             MinWidth="1280"
+             Height="650"
+             x:DataType="midiControl:MidiControlViewModel">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid Name="DropdownGrid" ColumnDefinitions="*" VerticalAlignment="Top"
+              Margin="10">
+            <ItemsControl ItemsSource="{Binding ComboBoxInputs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="midiControl:ComboBoxInput">
+
+                        <ComboBox
+                            Name="{Binding SelectedMediaElement.Name}"
+                            SelectionChanged="SelectedMedia"
+                            ItemsSource="{Binding MediaElements}"
+                            SelectedItem="{Binding SelectedMediaElement, Mode=TwoWay}"
+                            midiControl:MidiInputComboBoxHelper.MidiInputId="{Binding InputNumber}">
+                            <ComboBox.PlaceholderText>
+                                <MultiBinding StringFormat="'{0} - {1}'">
+                                    <Binding Path="InputNumber" />
+                                    <Binding Path="InputType" />
+                                </MultiBinding>
+                            </ComboBox.PlaceholderText>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="audio:MediaElement">
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </ScrollViewer>
 </UserControl>

@@ -1,16 +1,22 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:midi="clr-namespace:Commons.Music.Midi;assembly=Commons.Music.Midi"
+        xmlns:midiManager="clr-namespace:Mixi.UI.MidiManager"
         x:Class="Mixi.UI.MidiManager.MidiManagerWindow"
         Title="Mixi"
-        Width="1280" Height="720" WindowState="Normal" WindowStartupLocation="CenterScreen">
+        SizeToContent="WidthAndHeight"
+        MinWidth="1280" MinHeight="720" WindowState="Normal" WindowStartupLocation="CenterScreen"
+        x:DataType="midiManager:MidiManagerWindowViewModel">
     <StackPanel>
         <WrapPanel Margin="10">
             <Label FontSize="20">
                 Available Devices:
             </Label>
             <ComboBox Name="MidiDevices" FontSize="17" MinWidth="600" MaxDropDownHeight="200"
-                      VerticalAlignment="Bottom">
+                      VerticalAlignment="Bottom"
+                      SelectionChanged="SelectedMidiDevice"
+                      ItemsSource="{Binding PortDetails}"
+                      SelectedItem="{Binding SelectedPortDetails, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="midi:IMidiPortDetails">
                         <TextBlock Text="{Binding Name}" />

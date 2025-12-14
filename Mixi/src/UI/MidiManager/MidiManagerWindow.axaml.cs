@@ -1,15 +1,18 @@
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Commons.Music.Midi;
+using DynamicData.Kernel;
 using Mixi.Audio;
 using Mixi.MidiController;
 using Mixi.UI.MidiManager.MidiControl;
 using NLog;
 using NLog.Targets;
+using ReactiveUI.Avalonia;
 namespace Mixi.UI.MidiManager;
 
-public partial class MidiManagerWindow : Window {
+public partial class MidiManagerWindow : ReactiveWindow<MidiManagerWindowViewModel> {
 
     private static readonly Logger Logger = BuildLogger();
 
@@ -22,20 +25,13 @@ public partial class MidiManagerWindow : Window {
             .GetCurrentClassLogger();
     }
 
-    private List<IMidiPortDetails> portDetails;
+    public MidiControl.MidiControl? MidiControlPanel;
 
     private AbstractMidiController midiController;
 
-    public MidiControl.MidiControl? midiControlPanel;
-
     public MidiManagerWindow() {
         AvaloniaXamlLoader.Load(this);
-        var midiAccess = MidiAccessManager.Default;
-        portDetails = midiAccess.Inputs.ToList();
-
-        var midiDeviceDropdown = this.Find<ComboBox>("MidiDevices");
-        midiDeviceDropdown?.SelectionChanged += SelectedMidiDevice;
-        midiDeviceDropdown?.ItemsSource = midiAccess.Inputs;
+        DataContext = new MidiManagerWindowViewModel();
     }
 
     private void SelectedMidiDevice(object? sender, SelectionChangedEventArgs e) {
@@ -48,11 +44,35 @@ public partial class MidiManagerWindow : Window {
         midiController = MixiMidiManager.GetMidiController(portDetail);
         var mediaElements = AudioManager.GetMediaElements();
 
-        midiControlPanel = new KorgNanoKontrolControl(midiController, mediaElements);
+        // Load from configuration profile
+        if (!string.IsNullOrEmpty(MixiMidiManager.ActiveConfiguration?.DeviceName)) {
+            foreach (var activeConfigurationMidiMapping in MixiMidiManager.ActiveConfiguration.MidiMappings) {
+                MixiMidiManager.ActiveConfiguration.GetMappingDetails(activeConfigurationMidiMapping.Key, out var elementName, out var elementType);
+                // Get media element from active named configuration
+                mediaElements
+                    .FirstOrOptional(element => elementType.Equals(element.Type) &&
+                                                elementName!.Equals(element.Name))
+                    .IfHasValue(element => midiController.BindElement(activeConfigurationMidiMapping.Key, element));
+
+            }
+        }
+        else {
+            // TODO: Create configurations per-device
+            if (MixiMidiManager.ActiveConfiguration != null)
+                MixiMidiManager.ActiveConfiguration = MixiMidiManager.ActiveConfiguration with {
+                    DeviceName = portDetail.Name
+                };
+            MixiMidiManager.SaveToProfile();
+        }
+
+        if (MidiControlPanel != null)
+            return;
+
+        MidiControlPanel = new KorgNanoKontrolControl((KorgNanoKontrolController)midiController, mediaElements);
         var controlPanel = this.Find<Panel>("MidiControlPanelContainer");
 
         if (controlPanel != null) {
-            controlPanel.Children.Add(midiControlPanel);
+            controlPanel.Children.Add(MidiControlPanel);
             Logger.Info("Midi control panel loaded");
         }
         else {
