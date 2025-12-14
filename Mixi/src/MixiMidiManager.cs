@@ -2,11 +2,13 @@
 using Commons.Music.Midi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mixi.Audio;
+using Mixi.Configuration;
 using Mixi.MidiController;
 using Mixi.UI;
 using NLog;
 using NLog.Targets;
+using ReactiveUI.Avalonia;
+using System.Text.Json;
 namespace Mixi;
 
 class MixiMidiManager {
@@ -22,10 +24,30 @@ class MixiMidiManager {
             .GetCurrentClassLogger();
     }
 
+    public const string ProfileFileName = "Profile.json";
+
+    public static readonly string Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Mixi";
+
+    public static readonly string FilePath = $"{Path}/{ProfileFileName}";
+
+
     private static AbstractMidiController? activeMidiController;
+
+    public static ActiveConfiguration? ActiveConfiguration;
 
     [STAThread]
     static void Main(string[] args) {
+        Logger.Info("Checking for existing profile");
+
+        if (!LoadFromProfile()) {
+            Logger.Info($"No profile found. Creating empty configuration at - {Path}");
+            Directory.CreateDirectory(Path);
+            File.Create(FilePath).Dispose();
+
+            ActiveConfiguration = new ActiveConfiguration("", new Dictionary<int, string>());
+            File.WriteAllText(FilePath, JsonSerializer.Serialize(ActiveConfiguration));
+        }
+
         // Logger.Info("Setting up midi service daemon:");
         // var daemonHost = BuildMidiDaemonWorker();
         // daemonHost.RunAsync();
@@ -50,10 +72,28 @@ class MixiMidiManager {
         return host;
     }
 
+    public static bool LoadFromProfile() {
+        if (!File.Exists(FilePath)) {
+            return false;
+        }
+        Logger.Info($"Loading profile from - {FilePath}");
+        var json = File.ReadAllText(FilePath);
+        ActiveConfiguration = JsonSerializer.Deserialize<ActiveConfiguration>(json);
+        return true;
+    }
+
+    public static bool SaveToProfile() {
+        Logger.Info($"Saving profile to - {FilePath}");
+        var json = JsonSerializer.Serialize(ActiveConfiguration);
+        File.WriteAllText(FilePath, json);
+        return true;
+    }
+
     public static AppBuilder BuildAvaloniaApp() {
         return AppBuilder.Configure<UiApplication>()
             .UsePlatformDetect()
-            .LogToTrace();
+            .LogToTrace()
+            .UseReactiveUI();
     }
     public static AbstractMidiController GetMidiController(IMidiPortDetails portDetails) {
         // TODO: May need to use the worker appraoch here. Need to do testing on this this would be managed with the UI piece and managed midi.
@@ -62,4 +102,5 @@ class MixiMidiManager {
         // This list could be used to map names to controller implementations
         return activeMidiController;
     }
+
 }

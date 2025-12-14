@@ -14,6 +14,7 @@
         <Authors>Mixi</Authors>
         <Company>Mixi</Company>
         <Product>Mixi</Product>
+        <ApplicationIcon>src\UI\Resources\slider-vert.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +30,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0"/>
         <PackageReference Include="NLog" Version="6.0.6"/>
+        <PackageReference Include="ReactiveUI.Avalonia" Version="11.3.8"/>
         <PackageReference Include="System.Net.Sockets" Version="4.3.0"/>
         <PackageReference Include="XVolume" Version="0.1.1"/>
     </ItemGroup>
@@ -43,7 +45,7 @@
         <None Remove="src\UI\slider-hori.svg"/>
         <None Remove="src\UI\slider-hori.ico"/>
         <AvaloniaXaml Remove="src\UI\MidiManager\MidiControl\KorgNanoKontrolControlPanel.axaml"/>
-        <AvaloniaXaml Remove="src\UI\MidiManager\MidiControl\MidiInputComboxBox.axaml" />
+        <AvaloniaXaml Remove="src\UI\MidiManager\MidiControl\MidiInputComboxBox.axaml"/>
     </ItemGroup>
 
     <ItemGroup>

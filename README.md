@@ -1,6 +1,6 @@
-## Mixi Audo Manager
+## Mixi Audio Manager
 
-A cross-platform midi controller audio manager. Heavily inspired by [midi mixer](https://www.midi-mixer.com/) by Jack
+A cross-platform midi volume manager. Heavily inspired by [midi mixer](https://www.midi-mixer.com/) by Jack
 Williams.
 
 Originally practice for learning C#, this project was open sourced to allow for future expansion for better cross
@@ -21,12 +21,18 @@ This application was explicitly designed to be scalable for new devices and audi
 - [ ] Working UI using Avalonia for cross platform support
     - [x] Taskbar "service"
     - [x] Midi control window
-    - [ ] Save/load for UI
+    - [x] Save/load for UI
+        - Needs to be cross platform tested. _Should work_. But needs verification.
     - [ ] Device Profiles
+        - Partially funcitoning. Need to be able to create/load profiles based on device name.
     - [ ] Polish
 - [x] Audio abstraction layer
 - [ ] OS Audio interface layers
     - [ ] Linux (Needs to include a few different implementations such as pulse audio, pipewire, etc)
+        - [x] WirePlumber
+        - [ ] PipeWire (May be covered by wire plumber)
+        - [ ] Pulse Audio
+        - [ ] ALSA
     - [ ] Windows
     - [ ] MacOs
 - [ ] Midi device support

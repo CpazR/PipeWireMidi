@@ -1,4 +1,5 @@
 using Commons.Music.Midi;
+using Mixi.Audio;
 using NLog;
 using NLog.Targets;
 using XVolume.Abstractions;
@@ -48,6 +49,8 @@ public abstract class AbstractMidiController {
     }
 
     protected abstract void EventHandler(object? sender, MidiReceivedEventArgs e);
+
+    public abstract void BindElement(int input, MediaElement element);
 
     protected void SetVolume(float value) {
         float scaledValue = (value / MaxAnalogValue) * 100;

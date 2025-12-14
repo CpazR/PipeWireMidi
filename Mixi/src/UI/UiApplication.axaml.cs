@@ -31,6 +31,10 @@ public partial class UiApplication : Application {
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
+        // Show window on application startup to establish midi controller
+        BuildMidiManagerWindow();
+        mainWindow?.Show();
+
         base.OnFrameworkInitializationCompleted();
     }
 
@@ -54,7 +58,9 @@ public partial class UiApplication : Application {
     private void BuildMidiManagerWindow() {
         mainWindow ??= new MidiManagerWindow();
         // Clear main window reference once closed
-        mainWindow?.Closed += (_, _) => mainWindow = null;
+        mainWindow?.Closed += (_, _) => {
+            mainWindow = null;
+        };
     }
 
     [RelayCommand]
